@@ -105,4 +105,5 @@ end
 
 -- ======== Run ========
 task.spawn(stealth)
+print("Script Is Stable")
 showLoadingScreen()      -- wait 180s loading
